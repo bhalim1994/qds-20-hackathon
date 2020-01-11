@@ -18,8 +18,6 @@ const path = require('path');
 const viewsRouter = require('./routes/views');
 
 const getDate = require('./ajax/getDate');
-const getBillboard = require('./ajax/getBillboard');
-const getBillboard2 = require('./ajax/getBillboard2');
 
 
 app.use('/', viewsRouter);
@@ -39,7 +37,7 @@ app.use(function (req, res, next) {
 // RUN SERVER
 let port = 9000;
 app.listen(port, function () {
-    console.log('Ajax lab listening on port ' + port + '!');
+    console.log('Parking Helper app listening on port ' + port + '!');
 });
 
 module.exports = app;
