@@ -2,6 +2,5 @@
 
 Project for the QDS 20 Hackathon.
 
-Scott Lai
-Name: 
-Haejoon Choi
+Name: Scott Lai
+Name: Haejoon Choi
