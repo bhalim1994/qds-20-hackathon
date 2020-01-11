@@ -25,8 +25,8 @@ app.use('/public', express.static('public'));
 app.use('/data', express.static('data'));
 
 app.get('/ajax-getDate', getDate);
-app.get('/ajax-getBillboard', getBillboard);
-app.get('/ajax-getBillboard2', getBillboard2);
+// app.get('/ajax-getBillboard', getBillboard);
+// app.get('/ajax-getBillboard2', getBillboard2);
 
 
 // for page not found (i.e., 404)
