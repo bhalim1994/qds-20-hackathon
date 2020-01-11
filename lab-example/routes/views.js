@@ -10,15 +10,8 @@ var router = express.Router();
 // var myJSobj = require('../data/myJSobj');
 
 /* GET home page. */
-router.get('/test', function(req, res, next) {
-  var html = fs.readFileSync(path.resolve(__dirname, '../views/index.html'), 'utf8');
-  res.send(html);
-  // let $ = require("jquery")(dom.window);
-});
-
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  var html = fs.readFileSync(path.resolve(__dirname, '../views/lab.html'), 'utf8');
+  var html = fs.readFileSync(path.resolve(__dirname, '../views/index.html'), 'utf8');
   res.send(html);
   // let $ = require("jquery")(dom.window);
 });
