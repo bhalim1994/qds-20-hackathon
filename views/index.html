@@ -7,48 +7,48 @@
     <link rel="stylesheet" type="text/css" href="public/stylesheets/style.css" />
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-    <title>Ajax Lab</title>
+    <!-- Font Awesome Icon -->
+    <script src="https://kit.fontawesome.com/37f12a3856.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <!-- Title -->
+    <title>Parking Helper</title>
 
 </head>
 
 <body>
     <div id="nav-bar">
-        <div class="buttons">
-            <button id="AJAX-hot-100">Hot 100</button>
-            <button id="AJAX-billboard-200">Billboard 200</button>
-        </div>
-    </div>
-    <div class="topper hot-100">
-        <div class="header-container">
-        </div>
-    </div>
-    <div class="topper billboard-200">
-        <div class="header-container">
-        </div>
+        <span>Parking Helper</span>
+        <i class="fas fa-info-circle"></i>
     </div>
     <div id="contents">
-        <!-- <div class="container">
-                <div class="rank-box">1</div>
-                <div class="album-art"><img
-                        src="https://charts-static.billboard.com/img/2019/01/ariana-grande-ypy-53x53.jpg"></div>
-                <div class="song-title">7 Rings</div>
-                <div class="artist">Ariana Grande</div>
-            </div>
-            <div id="contents">
-                <div class="container">
-                    <div class="rank-box">2</div>
-                    <div class="album-art"><img src="/public/images/ariana.png"></div>
-                    <div class="song-title">7 Rings</div>
-                    <div class="artist">Ariana Grande</div>
-                </div>
-            </div> -->
+        <div id="map"></div>
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="theftControl">
+            <label class="custom-control-label" for="theftControl">
+                SHOW THEFT DANGER ZONE
+            </label>
+        </div>
     </div>
-    <!-- <p id="myText"> Some text </p>
-    <button type="button" id="ajaxButton">Ajax</button>
-    <button type="button" id="jsonButton">JSON</button> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="public/javascripts/client.js"></script>
 
+    <di <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+        </script>
+        <script src="public/javascripts/client.js"></script>
+        <script src="public/javascripts/googlemaps.js"></script>
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVzwyDlkqJdR3zI5jD0BQxWb2Jy4hvsQM&callback=initMap"
+            async defer></script>
 
 </body>
 
