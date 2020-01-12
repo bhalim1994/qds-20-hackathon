@@ -30,4 +30,9 @@ JavaScript
 Python
 
 
+Name: Scott Lai
+Name: Haejoon Choi
+Name: Ben Halim
+
+Name: Maria Baltasar
 
