@@ -19,7 +19,7 @@ $(document).ready(function () {
                     type: "GET",
                     success: function (data) {
                         console.log("SUCCESS:", data);
-                        crime_rate_data = data;        
+                        crime_rate_data = data;
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         $("#myText").text(jqXHR.statusText);
@@ -43,12 +43,12 @@ $(document).ready(function () {
                         addPark(map, parkingStalls);
 
                         map.data.addGeoJson(data);
-                        map.data.setStyle(function(feature) {
+                        map.data.setStyle(function (feature) {
                             var code = feature.getProperty('AREA_SHORT_CODE');
                             var color = fullColorHex(51 * Math.round(crime_rate_data[code]), 0, 0);
                             return {
-                              fillColor: `#${color}`,
-                              strokeWeight: 1
+                                fillColor: `#${color}`,
+                                strokeWeight: 1
                             };
                         });
                     },
@@ -185,7 +185,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: "/data/parking-stall-data.json",
+            url: "/data/parking-stall-data-w-dan.json",
             dataType: "json",
             type: "GET",
             success: function (data) {
@@ -205,35 +205,43 @@ $(document).ready(function () {
 
 });
 
-var rgbToHex = function (rgb) { 
+var rgbToHex = function (rgb) {
     var hex = Number(rgb).toString(16);
     if (hex.length < 2) {
-         hex = "0" + hex;
+        hex = "0" + hex;
     }
     return hex;
-  };
+};
 
-var fullColorHex = function(r,g,b) {   
+var fullColorHex = function (r, g, b) {
     var red = rgbToHex(r);
     var green = rgbToHex(g);
     var blue = rgbToHex(b);
-    return red+green+blue;
-  };
+    return red + green + blue;
+};
 
 function addPark(map, data) {
-  var features = [];
-  for (var i = 0; i < data.carparks.length; i++) {
-      features.push({
-          position: new google.maps.LatLng(data.carparks[i].lat, data.carparks[i].lng),
-          type: 'parking'
+    var features = [];
+    for (var i = 0; i < data.carparks.length; i++) {
+        features.push({
+            position: new google.maps.LatLng(data.carparks[i].lat, data.carparks[i].lng),
+            type: 'parking'
         });
-  }
+    }
 
-  for (var i = 0; i < features.length; i++) {
-      var marker = new google.maps.Marker({
-        position: features[i].position,
-        icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/parking_lot_maps.png',
-        map: map
-      });
+    for (var i = 0; i < features.length; i++) {
+        if (data.carparks[i].danger == 'false') {
+            var marker = new google.maps.Marker({
+                position: features[i].position,
+                icon: '/public/images/P_green.png',
+                map: map
+            });
+        } else {
+            var marker = new google.maps.Marker({
+                position: features[i].position,
+                icon: '/public/images/P_red.png',
+                map: map
+            });
+        }
     };
 }
