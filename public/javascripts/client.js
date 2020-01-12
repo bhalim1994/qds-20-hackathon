@@ -1,9 +1,48 @@
-$(document).ready(function() {    
-    
+$(document).ready(function () {
     console.log("client doc ready");
+    initMap();
+    var map;
     
+    $('#theftControl').click(function (e) {
+        $(this).ready(function () {
+        if ($('#theftControl').prop("checked") == true) {
+            console.log("neighborhood toggle is checked");
+
+            // don't allow the anchor to visit the link
+            e.preventDefault();
+
+            $.ajax({
+                url: "/data/torontohoods.geojson",
+                dataType: "json",
+                type: "GET",
+                success: function (data) {
+                    console.log("SUCCESS:", data);
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: {
+                            lat: 43.654,
+                            lng: -79.383
+                        },
+                        zoom: 13
+                    });
+                    map.data.addGeoJson(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $("#myText").text(jqXHR.statusText);
+                    console.log("ERROR:", jqXHR, textStatus, errorThrown);
+                }
+
+            });
+        } else if($('#theftControl').prop("checked") == false) {
+            console.log($(this).prop("checked"));
+
+            // console.log("neighborhood toggle is unchecked");
+            map.data.setStyle({visible: false});
+        }
+    });
+    });
+
     // CONTACT THE SERVER AND GET THE DATE FROM THE SERVER
-    $('#ajaxButton').click(function(e) {
+    $('#ajaxButton').click(function (e) {
 
         console.log("ajax button clicked");
 
@@ -14,12 +53,12 @@ $(document).ready(function() {
             url: "/ajax-crime-and-parking",
             dataType: "json",
             type: "GET",
-            success: function(data) {
+            success: function (data) {
                 $("#myText").text("" + data.msg);
                 console.log("SUCCESS:", data.msg);
 
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 $("#myText").text(jqXHR.statusText);
                 console.log("ERROR:", jqXHR, textStatus, errorThrown);
             }
@@ -62,12 +101,12 @@ $(document).ready(function() {
             url: "/data/myJSON.json",
             dataType: "json",
             type: "GET",
-            success: function(data) {
+            success: function (data) {
                 $("#myText").text("" + data.foo);
                 console.log("SUCCESS:", data.foo);
 
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 $("#myText").text(jqXHR.statusText);
                 console.log("ERROR:", jqXHR, textStatus, errorThrown);
             }
@@ -77,7 +116,7 @@ $(document).ready(function() {
 
     var hotLoaded = false;
 
-    $('#AJAX-hot-100').click(function(e) {
+    $('#AJAX-hot-100').click(function (e) {
 
         console.log("Hot 100 button clicked");
 
@@ -92,7 +131,7 @@ $(document).ready(function() {
             url: "/ajax-getBillboard",
             dataType: "json",
             type: "GET",
-            success: function(chart) {
+            success: function (chart) {
                 // console.log("SUCCESS:", chart);
                 // console.log(chart.songs); // prints array of top 100 songs
                 // console.log(chart.songs[3]); // prints song with rank: 4
@@ -108,7 +147,7 @@ $(document).ready(function() {
                     } else {
                         cover = "https://assets.billboard.com/assets/1554150270/images/charts/bb-placeholder-new.jpg?3480059e7bb0a7a12a1e"
                     }
-                    addItem(chart.songs[i].rank, cover, chart.songs[i].title, chart.songs[i].artist, function() {          
+                    addItem(chart.songs[i].rank, cover, chart.songs[i].title, chart.songs[i].artist, function () {
                         $('.billboard').slideUp(1000, function () {
                             $('.billboard').remove();
                         });
@@ -117,7 +156,7 @@ $(document).ready(function() {
                     console.log(chart);
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 $("#myText").text(jqXHR.statusText);
                 console.log("ERROR:", jqXHR, textStatus, errorThrown);
             }
@@ -126,7 +165,7 @@ $(document).ready(function() {
 
     var billboardLoaded = false;
 
-    $('#AJAX-billboard-200').click(function(e) {
+    $('#AJAX-billboard-200').click(function (e) {
 
         console.log("Billboard 200 button clicked");
 
@@ -140,7 +179,7 @@ $(document).ready(function() {
             url: "/ajax-getBillboard2",
             dataType: "html",
             type: "GET",
-            success: function(html) {
+            success: function (html) {
                 console.log("Success");
                 console.log(html);
                 $('#contents').append(html)
@@ -148,7 +187,7 @@ $(document).ready(function() {
                     $('.hot').remove();
                 });
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 $("#myText").text(jqXHR.statusText);
                 console.log("ERROR:", jqXHR, textStatus, errorThrown);
             }
@@ -160,13 +199,40 @@ $(document).ready(function() {
     // an immediately invoked function to keep everything contained
     function addItem(rank, imgSrc, title, artist, callback) {
         // define out container
-        var $container = $('<div/>', {class: 'container hot',}).append( // add all the children
-            $('<div/>', {class: "rank-box", text: rank}), $('<div/>', {class: "album-art"}).append(
-                $('<img/>', {src: imgSrc})
-            ), $('<div/>', {class: "song-title", text: title}) ,$('<div/>', {class: "artist", text: artist})
+        var $container = $('<div/>', {
+            class: 'container hot',
+        }).append( // add all the children
+            $('<div/>', {
+                class: "rank-box",
+                text: rank
+            }), $('<div/>', {
+                class: "album-art"
+            }).append(
+                $('<img/>', {
+                    src: imgSrc
+                })
+            ), $('<div/>', {
+                class: "song-title",
+                text: title
+            }), $('<div/>', {
+                class: "artist",
+                text: artist
+            })
         ).appendTo($contents); // append our container to contents
         callback();
     }
 
-    function clearContent() {$contents.empty()}
+    function clearContent() {
+        $contents.empty()
+    }
+
+    var map;
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 43.654, lng: -79.383},
+        zoom: 13
+      });
+    }
+  
 });

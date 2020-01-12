@@ -12,13 +12,13 @@ global.document = document;
 var $ = jQuery = require('jquery')(window);
 
 const fs = require("fs");
-
 const path = require('path');
 
 const viewsRouter = require('./routes/views');
 
 const getDate = require('./ajax/getDate');
 const getData = require('./ajax/crime-and-parking');
+
 
 
 

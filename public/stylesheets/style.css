@@ -1,10 +1,15 @@
+/* * {
+  box-sizing: border-box;
+} */
 
 body {
   /* background-image: linear-gradient(to bottom right, rgb(178, 49, 124), rgb(73, 103, 214)); */
   padding: 0px;
   margin: 0px;
-  font-family: 'Poppins', sans-serif;;
+  font-family: 'Poppins', sans-serif;
   background-color: #f0f0f0;
+  /* width: 100%; */
+  /* height: 100%; */
 }
 
 a {
@@ -14,213 +19,33 @@ a {
 #contents {
   background-color: #f0f0f0;
   max-width: 700px;
-  padding-top: 10px;
   min-height: 100%;
+  /* height: 100%; */
+  /* width: 100% */
 
 }
 
-#nav-bar{
+#nav-bar {
   height: 50px;
   width: 100%;
   background-color: black;
-  background-image: url('/public/images/Billboard-white.svg');
-  background-size: 160px;
-  background-repeat: no-repeat;
-  background-position-x: 20px;
-  background-position-y: center;
-  position: fixed;
-  z-index: 2;
-  filter: drop-shadow(0 0 10px);
-}
-
-.topper {
-  max-height: 500px;
-  width: 100%;
-  height: 400px;
-  background-color: black;
-  background-image: url('/public/images/mobile-bb-charts-hot-100.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  display: grid;
-  align-items: center;
-  position: absolute;
-}
-
-.topper.hot-100 {
-  background-image: url('/public/images/mobile-bb-charts-hot-100.svg');
-}
-.topper.billboard-200 {
-  background-image: url('/public/images/mobile-bb-charts-billboard-200.svg');
-}
-.topper.hot-100 .header-container {
-  background-image: url('/public/images/title-the-hot-100.svg');
-}
-.topper.billboard-200 .header-container {
-  background-image: url('/public/images/title-billboard-200.svg');
-}
-
-.header-container{
-  height: 60px;
-  background-image: url('/public/images/title-the-hot-100.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  margin: 0 10vw;
-}
-
-.container {
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 15% 15% auto;
-
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100vw;
-  margin: 10px auto;
-  height: 70px;
-  background: #ffffff;
-  align-items: center;
-  transform: translate(0px, 400px);
-}
-
-.container * {
-  color: #000011;
-  padding-top: auto;
-  padding-bottom: auto;
-}
-
-.buttons {
-  display: grid;
-  grid-template-areas: 
-    "billboard top-100 billboard-200";
-  justify-content: end;
-}
-
-.buttons * {
-  border: 0;
-  padding: 0;
-  font-size: 100%;
-  font-family: inherit;
+  position: sticky;
+  display: flex;
+  justify-content: space-between;
   color: white;
-  background-color: inherit;
-  align-self: center;
-  margin: 30px 10px 0 10px;
-  cursor: pointer;
+  align-items: center;
+  font-size: xx-large;
+  font-weight: bolder;
 }
 
-.buttons *:hover {
-  color: #AEB7FF
+#map {
+  height: 100vw;
+  margin-bottom: 12px;
 }
 
-.buttons *::selection {
-  border: 0;
-}
 
-.buttons #AJAX-hot-100 {
-  grid-area: top-100;
-}
-
-.buttons #AJAX-billboard-200 {
-  grid-area: billboard-200;
-}
-
-.rank-box {
-  grid-row: 1 / span 2;
-  text-align: center;
-  font-size: 24pt;
-  font-weight: bold;
-}
-
-.album-art {
-  grid-row: 1 / span 2;
-  text-align: center;
-
-}
-
- .album-art img {
-  max-width: 53px;
-  max-height: 53px;
-} 
-
-.song-title {
-  font-size: 12pt;
-  font-style: normal;
-  font-weight: bold;
-
-  overflow: hidden;
-}
-
-.artist {
-  font-size: 8pt;
-  font-style: normal;
-  font-weight: normal;
-}
-
-@media only screen and (min-width: 550px) {
-  .container {
-    width: 90vw;
-    max-width: 700px;
-  }
-  .buttons * {
-    margin: 10px;
-    font-size: 1.4em;
-
-  }
-
-  #contents{
-    align-items: center;
-    /* justify-content: center; */
-    max-width: none;
-  }  
-  .topper {
-    width: 100%;
-    height: 400px;    
-    background-image: url('/public/images/bb-charts-hot-100.svg');
-  }
-  .topper.hot-100 {
-    background-image: url('/public/images/bb-charts-hot-100.svg');
-  }
-  .topper.billboard-200 {
-    background-image: url('/public/images/bb-charts-billboard-200.svg');
-  }
-}
-
-@media only screen and (min-width: 850px) {
-  #nav-bar {
-    height: 70px;
-
-  }
-  .buttons * {
-    margin: 10px;
-  }
-  .buttons {
-    height: 70px;
-    font-size: 1.7em;
-    align-content: center;
-    padding-bottom: 10px;
-  }
-
-  .container {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    width: 90vw;
-    max-width: 850px;
-    width: 100vw;
-    margin: 10px auto;
-    height: 100px;
-    background: #ffffff;
-    align-items: center;
-    transform: translate(0px, 400px);
-    font-size: 4em;
-}
-.song-title{
-  font-size: 20pt;
-}
-.artist{
-  font-size: 15pt;
-}
-.rank-box{
-  font-size: 30pt;
-}
+#contents {
+  align-items: center;
+  /* justify-content: center; */
+  max-width: none;
 }
