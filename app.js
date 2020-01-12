@@ -17,6 +17,8 @@ const path = require('path');
 const viewsRouter = require('./routes/views');
 
 const getDate = require('./ajax/getDate');
+const getData = require('./ajax/crime-and-parking');
+
 
 
 
@@ -25,6 +27,7 @@ app.use('/public', express.static('public'));
 app.use('/data', express.static('data'));
 
 app.get('/ajax-getDate', getDate);
+app.get('/ajax-getCrimeData', getData);
 // app.get('/ajax-getBillboard', getBillboard);
 // app.get('/ajax-getBillboard2', getBillboard2);
 

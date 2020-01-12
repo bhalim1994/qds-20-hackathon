@@ -1,44 +1,72 @@
+var map;
+var parkingStalls;
 $(document).ready(function () {
     console.log("client doc ready");
-    initMap();
-    var map;
-    
+    initMap(map);
+
     $('#theftControl').click(function (e) {
         $(this).ready(function () {
-        if ($('#theftControl').prop("checked") == true) {
-            console.log("neighborhood toggle is checked");
+            if ($('#theftControl').prop("checked") == true) {
+                console.log("neighborhood toggle is checked");
 
-            // don't allow the anchor to visit the link
-            e.preventDefault();
+                // don't allow the anchor to visit the link
+                e.preventDefault();
+                var crime_rate_data;
 
-            $.ajax({
-                url: "/data/torontohoods.geojson",
-                dataType: "json",
-                type: "GET",
-                success: function (data) {
-                    console.log("SUCCESS:", data);
-                    map = new google.maps.Map(document.getElementById('map'), {
-                        center: {
-                            lat: 43.654,
-                            lng: -79.383
-                        },
-                        zoom: 13
-                    });
-                    map.data.addGeoJson(data);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $("#myText").text(jqXHR.statusText);
-                    console.log("ERROR:", jqXHR, textStatus, errorThrown);
-                }
+                $.ajax({
+                    url: "/data/crime_rate_toronto.json",
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        console.log("SUCCESS:", data);
+                        crime_rate_data = data;
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $("#myText").text(jqXHR.statusText);
+                        console.log("ERROR:", jqXHR, textStatus, errorThrown);
+                    }
+                });
 
-            });
-        } else if($('#theftControl').prop("checked") == false) {
-            console.log($(this).prop("checked"));
+                $.ajax({
+                    url: "/data/torontohoods.geojson",
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        console.log("SUCCESS:", data);
+                        map = new google.maps.Map(document.getElementById('map'), {
+                            center: {
+                                lat: 43.654,
+                                lng: -79.383
+                            },
+                            zoom: 13
+                        });
+                        addPark(map, parkingStalls);
 
-            // console.log("neighborhood toggle is unchecked");
-            map.data.setStyle({visible: false});
-        }
-    });
+                        map.data.addGeoJson(data);
+                        map.data.setStyle(function (feature) {
+                            var code = feature.getProperty('AREA_SHORT_CODE');
+                            var color = fullColorHex(51 * Math.round(crime_rate_data[code]), 0, 0);
+                            return {
+                                fillColor: `#${color}`,
+                                strokeWeight: 1
+                            };
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $("#myText").text(jqXHR.statusText);
+                        console.log("ERROR:", jqXHR, textStatus, errorThrown);
+                    }
+                });
+
+
+
+            } else if ($('#theftControl').prop("checked") == false) {
+                console.log($(this).prop("checked"));
+
+                // console.log("neighborhood toggle is unchecked");
+                initMap(map);
+            }
+        });
     });
 
     // CONTACT THE SERVER AND GET THE DATE FROM THE SERVER
@@ -50,7 +78,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         $.ajax({
-            url: "/ajax-getDate",
+            url: "/ajax-crime-and-parking",
             dataType: "json",
             type: "GET",
             success: function (data) {
@@ -60,6 +88,30 @@ $(document).ready(function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $("#myText").text(jqXHR.statusText);
+                console.log("ERROR:", jqXHR, textStatus, errorThrown);
+            }
+
+        });
+    });
+
+    $('#crime-button').click(function (e) {
+
+        console.log("crime button clicked");
+
+        // don't allow the anchor to visit the link
+        e.preventDefault();
+
+        $.ajax({
+            url: "/ajax-getCrimeData",
+            dataType: "json",
+            type: "GET",
+            success: function (data) {
+
+                console.log("SUCCESS:", data.msg);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // $("#myText").text(jqXHR.statusText);
                 console.log("ERROR:", jqXHR, textStatus, errorThrown);
             }
 
@@ -90,85 +142,6 @@ $(document).ready(function () {
         });
     });
 
-    var hotLoaded = false;
-
-    $('#AJAX-hot-100').click(function (e) {
-
-        console.log("Hot 100 button clicked");
-
-        // don't allow the anchor to visit the link
-        e.preventDefault();
-
-        // style
-        $('.topper.hot-100').css("z-index", '1').fadeIn(1000, function () {
-            $('.topper.billboard-200').css("z-index", '0').fadeOut(1000);
-        });
-        $.ajax({
-            url: "/ajax-getBillboard",
-            dataType: "json",
-            type: "GET",
-            success: function (chart) {
-                // console.log("SUCCESS:", chart);
-                // console.log(chart.songs); // prints array of top 100 songs
-                // console.log(chart.songs[3]); // prints song with rank: 4
-                // console.log(chart.songs[0].title); // prints title of top song
-                // console.log(chart.songs[0].artist); // prints artist of top songs
-                // console.log(chart.songs[0].rank); // prints rank of top song (1)
-                // console.log(chart.songs[0].cover);
-                // clearContent();
-                for (i = 0; i < chart.songs.length; i++) {
-                    let cover;
-                    if (chart.songs[i].cover) {
-                        cover = chart.songs[i].cover;
-                    } else {
-                        cover = "https://assets.billboard.com/assets/1554150270/images/charts/bb-placeholder-new.jpg?3480059e7bb0a7a12a1e"
-                    }
-                    addItem(chart.songs[i].rank, cover, chart.songs[i].title, chart.songs[i].artist, function () {
-                        $('.billboard').slideUp(1000, function () {
-                            $('.billboard').remove();
-                        });
-                    });
-
-                    console.log(chart);
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                $("#myText").text(jqXHR.statusText);
-                console.log("ERROR:", jqXHR, textStatus, errorThrown);
-            }
-        });
-    });
-
-    var billboardLoaded = false;
-
-    $('#AJAX-billboard-200').click(function (e) {
-
-        console.log("Billboard 200 button clicked");
-
-        // don't allow the anchor to visit the link
-        e.preventDefault();
-
-        $('.topper.billboard-200').fadeIn(1000, function () {
-            $('.topper.hot-100').fadeOut(1000);
-        });
-        $.ajax({
-            url: "/ajax-getBillboard2",
-            dataType: "html",
-            type: "GET",
-            success: function (html) {
-                console.log("Success");
-                console.log(html);
-                $('#contents').append(html)
-                $('.hot').slideUp(1000, function () {
-                    $('.hot').remove();
-                });
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                $("#myText").text(jqXHR.statusText);
-                console.log("ERROR:", jqXHR, textStatus, errorThrown);
-            }
-        });
-    });
 
     // a Jquery object which targets the div with id "content", where we will put out list
     var $contents = $('#contents');
@@ -202,13 +175,73 @@ $(document).ready(function () {
         $contents.empty()
     }
 
-    var map;
+    function initMap(map) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: 43.654,
+                lng: -79.383
+            },
+            zoom: 13
+        });
 
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 43.654, lng: -79.383},
-        zoom: 13
-      });
+        $.ajax({
+            url: "/data/parking-stall-data-w-dan.json",
+            dataType: "json",
+            type: "GET",
+            success: function (data) {
+                console.log("SUCCESS:", data);
+                parkingStalls = data;
+                addPark(map, parkingStalls);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#myText").text(jqXHR.statusText);
+                console.log("ERROR:", jqXHR, textStatus, errorThrown);
+            }
+
+        });
+
+
     }
-  
+
 });
+
+var rgbToHex = function (rgb) {
+    var hex = Number(rgb).toString(16);
+    if (hex.length < 2) {
+        hex = "0" + hex;
+    }
+    return hex;
+};
+
+var fullColorHex = function (r, g, b) {
+    var red = rgbToHex(r);
+    var green = rgbToHex(g);
+    var blue = rgbToHex(b);
+    return red + green + blue;
+};
+
+function addPark(map, data) {
+    var features = [];
+    for (var i = 0; i < data.carparks.length; i++) {
+        features.push({
+            position: new google.maps.LatLng(data.carparks[i].lat, data.carparks[i].lng),
+            type: 'parking'
+        });
+    }
+
+    for (var i = 0; i < features.length; i++) {
+        if (data.carparks[i].danger == 'false') {
+            var marker = new google.maps.Marker({
+                position: features[i].position,
+                icon: '/public/images/P_green.png',
+                map: map
+            });
+        } else {
+            var marker = new google.maps.Marker({
+                position: features[i].position,
+                icon: '/public/images/P_red.png',
+                map: map
+            });
+        }
+    };
+}
