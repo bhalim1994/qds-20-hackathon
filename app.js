@@ -20,6 +20,7 @@ const viewsRouter = require('./routes/views');
 const getDate = require('./ajax/getDate');
 
 
+
 app.use('/', viewsRouter);
 app.use('/public', express.static('public'));
 app.use('/data', express.static('data'));

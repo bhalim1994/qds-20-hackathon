@@ -1,6 +1,38 @@
 $(document).ready(function() {    
     
     console.log("client doc ready");
+
+    $('#hoodbutton').click(function(e) {
+
+        console.log("neighborhood button clicked")
+
+        // don't allow the anchor to visit the link
+        e.preventDefault();
+
+        $.ajax({
+            url: "/data/torontohoods.geojson",
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                $("#myText").text("" + data.foo);
+                console.log("SUCCESS:", data.foo);
+                
+                var map;
+               
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 43.654, lng: -79.383},
+                    zoom: 13
+                });
+                map.data.addGeoJson(data);
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $("#myText").text(jqXHR.statusText);
+                console.log("ERROR:", jqXHR, textStatus, errorThrown);
+            }
+
+        });
+    });
     
     // CONTACT THE SERVER AND GET THE DATE FROM THE SERVER
     $('#ajaxButton').click(function(e) {
