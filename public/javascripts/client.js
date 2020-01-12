@@ -1,9 +1,11 @@
 $(document).ready(function () {
-
     console.log("client doc ready");
-
+    initMap();
+    var map;
+    
     $('#theftControl').click(function (e) {
-        if ($(this).prop("checked") == true) {
+        $(this).ready(function () {
+        if ($('#theftControl').prop("checked") == true) {
             console.log("neighborhood toggle is checked");
 
             // don't allow the anchor to visit the link
@@ -15,7 +17,6 @@ $(document).ready(function () {
                 type: "GET",
                 success: function (data) {
                     console.log("SUCCESS:", data);
-                    var map;
                     map = new google.maps.Map(document.getElementById('map'), {
                         center: {
                             lat: 43.654,
@@ -31,10 +32,13 @@ $(document).ready(function () {
                 }
 
             });
-        } else if($(this).prop("checked") == false) {
-            console.log("neighborhood toggle is unchecked");
-            map.data.clearContent;
+        } else if($('#theftControl').prop("checked") == false) {
+            console.log($(this).prop("checked"));
+
+            // console.log("neighborhood toggle is unchecked");
+            map.data.setStyle({visible: false});
         }
+    });
     });
 
     // CONTACT THE SERVER AND GET THE DATE FROM THE SERVER
@@ -197,4 +201,14 @@ $(document).ready(function () {
     function clearContent() {
         $contents.empty()
     }
+
+    var map;
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 43.654, lng: -79.383},
+        zoom: 13
+      });
+    }
+  
 });
