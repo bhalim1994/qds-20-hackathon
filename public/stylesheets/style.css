@@ -31,7 +31,7 @@ a {
   background-color: black;
   position: sticky;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   color: white;
   align-items: center;
   font-size: xx-large;
