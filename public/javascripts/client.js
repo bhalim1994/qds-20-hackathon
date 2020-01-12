@@ -11,7 +11,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         $.ajax({
-            url: "/ajax-getDate",
+            url: "/ajax-crime-and-parking",
             dataType: "json",
             type: "GET",
             success: function(data) {
@@ -21,6 +21,30 @@ $(document).ready(function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $("#myText").text(jqXHR.statusText);
+                console.log("ERROR:", jqXHR, textStatus, errorThrown);
+            }
+
+        });
+    });
+
+    $('#crime-button').click(function(e) {
+
+        console.log("crime button clicked");
+
+        // don't allow the anchor to visit the link
+        e.preventDefault();
+
+        $.ajax({
+            url: "/ajax-getCrimeData",
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                
+                console.log("SUCCESS:", data.msg);
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // $("#myText").text(jqXHR.statusText);
                 console.log("ERROR:", jqXHR, textStatus, errorThrown);
             }
 
