@@ -1,6 +1,10 @@
 # QDS 2020 Hackathon
 
-Project for the QDS 20 Hackathon.
+Project for the QDS 2020 Hackathon. Aids users in where to park in Toronto.
+
+The parking stalls which are in red are in close proximity to the top 100 ticketed areas while the parking stalls in green are not in close proximity to the top 100 ticketed areas.
+
+A heatmap filter of car theft and car break ins can be applied on top of the map. Redder areas have a higher occurence of car theft and car break ins.
 
 ## Created By
 Scott Lai
