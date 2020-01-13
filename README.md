@@ -4,15 +4,22 @@ Project for the QDS 20 Hackathon.
 
 ## Created By
 Scott Lai
+
 Haejoon Choi
+
 Ben Halim
+
 Maria Baltasar
 
 ## Dependencies
 Node.js
+
 Bootsrap
+
 Font Awesome
+
 Google Maps API
+
 Python - Pandas Library
 
 ## Datasets
@@ -26,13 +33,8 @@ Python - Pandas Library
 
 # Languages
 HTML / CSS
+
 JavaScript
+
 Python
-
-
-Name: Scott Lai
-Name: Haejoon Choi
-Name: Ben Halim
-
-Name: Maria Baltasar
 
